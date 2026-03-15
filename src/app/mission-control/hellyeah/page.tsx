@@ -298,7 +298,7 @@ export default function HellYeahSimulator() {
           <div className="grid grid-cols-2 gap-2 mb-3">
             {[
               { label: 'BLACKJACK WINRATE', value: `${metrics.blackjackWinrate}%`, pct: metrics.blackjackWinrate },
-              { label: 'REDDIT ARGUMENTS WON', value: `${metrics.redditArgumentsWon}`, pct: Math.min(metrics.redditArgumentsWon, 100) },
+              { label: 'REDDIT ARGUMENTS WON', value: metrics.redditArgumentsWon.toLocaleString(), pct: 100 },
               { label: 'HARLEYS LOWBALLED', value: metrics.harleysLowballed.toLocaleString(), pct: 99 },
               { label: 'DATING MATCH RATE', value: `${metrics.datingMatchRate}%`, pct: metrics.datingMatchRate },
             ].map((g, i) => {
