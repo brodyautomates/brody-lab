@@ -294,41 +294,121 @@ export default function HellYeahSimulator() {
         <div className="bg-black p-3 overflow-auto">
           <div className="text-[10px] text-term-dim mb-2">-- OPERATIONAL METRICS --</div>
 
-          {/* Gauges */}
-          <div className="grid grid-cols-2 gap-2 mb-3">
-            {[
-              { label: 'BLACKJACK WINRATE', value: `${metrics.blackjackWinrate}%`, pct: metrics.blackjackWinrate },
-              { label: 'REDDIT ARGUMENTS WON', value: metrics.redditArgumentsWon.toLocaleString(), pct: 100 },
-              { label: 'HARLEYS LOWBALLED', value: metrics.harleysLowballed.toLocaleString(), pct: 99 },
-              { label: 'DATING MATCH RATE', value: `${metrics.datingMatchRate}%`, pct: metrics.datingMatchRate },
-            ].map((g, i) => {
-              const barW = 15;
-              const filled = Math.min(Math.round((g.pct / 100) * barW), barW);
-              const bar = '█'.repeat(filled) + '░'.repeat(Math.max(barW - filled, 0));
-              return (
-                <div key={i} className="text-[10px]">
-                  <div className="text-term-dim">{g.label}</div>
-                  <div className="text-white">{g.value}</div>
-                  <div className="text-term-dim">{bar}</div>
-                </div>
-              );
-            })}
-          </div>
+          <div className="flex gap-3">
+            {/* Sonar Radar */}
+            <div className="shrink-0">
+              <div className="text-[9px] text-[#00ff41] mb-1">-- DATE ACQUISITION RADAR --</div>
+              <div className="relative" style={{ width: 180, height: 180 }}>
+                <svg viewBox="0 0 200 200" width="180" height="180">
+                  {/* Background */}
+                  <circle cx="100" cy="100" r="95" fill="none" stroke="#00ff4120" strokeWidth="1" />
+                  <circle cx="100" cy="100" r="70" fill="none" stroke="#00ff4115" strokeWidth="0.5" />
+                  <circle cx="100" cy="100" r="45" fill="none" stroke="#00ff4115" strokeWidth="0.5" />
+                  <circle cx="100" cy="100" r="20" fill="none" stroke="#00ff4115" strokeWidth="0.5" />
+                  {/* Crosshairs */}
+                  <line x1="5" y1="100" x2="195" y2="100" stroke="#00ff4115" strokeWidth="0.5" />
+                  <line x1="100" y1="5" x2="100" y2="195" stroke="#00ff4115" strokeWidth="0.5" />
+                  {/* Sweep line */}
+                  <line x1="100" y1="100" x2="100" y2="5" stroke="#00ff41" strokeWidth="1.5" opacity="0.8">
+                    <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="4s" repeatCount="indefinite" />
+                  </line>
+                  {/* Sweep trail */}
+                  <path d="M100,100 L100,5 A95,95 0 0,1 167,33 Z" fill="url(#sweepGrad)">
+                    <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="4s" repeatCount="indefinite" />
+                  </path>
+                  <defs>
+                    <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(30)">
+                      <stop offset="0%" stopColor="#00ff41" stopOpacity="0.2" />
+                      <stop offset="100%" stopColor="#00ff41" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {/* HUZZ (green) - dates to swipe right */}
+                  <circle cx="65" cy="45" r="3" fill="#00ff41" opacity="0.9">
+                    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="75" y="48" fill="#00ff41" fontSize="7" fontFamily="monospace">HUZZ</text>
+                  <circle cx="140" cy="60" r="3" fill="#00ff41" opacity="0.7">
+                    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.5s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="148" y="63" fill="#00ff41" fontSize="7" fontFamily="monospace">HUZZ</text>
+                  <circle cx="55" cy="130" r="3" fill="#00ff41" opacity="0.8">
+                    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="63" y="133" fill="#00ff41" fontSize="7" fontFamily="monospace">HUZZ</text>
+                  <circle cx="150" cy="140" r="3" fill="#00ff41" opacity="0.6">
+                    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="133" y="152" fill="#00ff41" fontSize="7" fontFamily="monospace">HUZZ</text>
+                  <circle cx="120" cy="80" r="3" fill="#00ff41" opacity="0.9">
+                    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.5s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="128" y="83" fill="#00ff41" fontSize="7" fontFamily="monospace">HUZZ</text>
+                  {/* OPPS (red) - avoid */}
+                  <circle cx="40" cy="85" r="3" fill="#ff0040" opacity="0.8">
+                    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="28" y="78" fill="#ff0040" fontSize="7" fontFamily="monospace">OPPS</text>
+                  <circle cx="160" cy="100" r="3" fill="#ff0040" opacity="0.7">
+                    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.8s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="168" y="103" fill="#ff0040" fontSize="7" fontFamily="monospace">OPPS</text>
+                  <circle cx="85" cy="160" r="3" fill="#ff0040" opacity="0.6">
+                    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite" />
+                  </circle>
+                  <text x="73" y="172" fill="#ff0040" fontSize="7" fontFamily="monospace">OPPS</text>
+                  {/* Center dot */}
+                  <circle cx="100" cy="100" r="2" fill="#00ff41" />
+                  {/* Range labels */}
+                  <text x="100" y="12" textAnchor="middle" fill="#00ff4160" fontSize="6" fontFamily="monospace">50MI</text>
+                  <text x="100" y="37" textAnchor="middle" fill="#00ff4140" fontSize="5" fontFamily="monospace">30MI</text>
+                </svg>
+              </div>
+              <div className="text-[9px] mt-1 flex gap-3">
+                <span className="flex items-center gap-1"><span style={{ color: '#00ff41' }}>●</span> HUZZ</span>
+                <span className="flex items-center gap-1"><span style={{ color: '#ff0040' }}>●</span> OPPS</span>
+              </div>
+              <div className="text-[9px] text-[#00ff41] opacity-50 mt-0.5">MATCH RATE: {metrics.datingMatchRate}%</div>
+            </div>
 
-          {/* Stats block */}
-          <div className="text-[10px] space-y-0.5 font-mono">
-            <div className="text-term-dim">TEXTS AUTO-REPLIED <span className="text-white">........ {metrics.textsAutoReplied.toLocaleString()}</span></div>
-            <div className="text-term-dim">FB ARGUMENTS WON <span className="text-white">.......... {metrics.fbArgumentsWon}</span></div>
-            <div className="text-term-dim">FB ARGUMENTS LOST <span className="text-white">......... {metrics.fbArgumentsLost}</span></div>
-            <div className="text-term-dim">FB ARGUMENTS ONGOING <span className="text-white">...... {metrics.fbArgumentsOngoing}</span></div>
-            <div className="text-term-dim">TACTICAL VESTS FLIPPED <span className="text-white">.... {metrics.tacticalVestsFlipped}</span></div>
-            <div className="text-term-dim">SPORTS BETS WON <span className="text-white">........... {metrics.sportsBetsWon}</span></div>
-            <div className="text-term-dim">SPORTS BETS LOST <span className="text-white">.......... {metrics.sportsBetsLost}</span></div>
-            <div className="text-term-dim">BRAG POSTS DEPLOYED <span className="text-white">....... {metrics.bragPostsDeployed}</span></div>
-            <div className="text-term-dim">STEAKS CONSUMED <span className="text-white">........... {metrics.steaksConsumed.toLocaleString()}</span></div>
-            <div className="text-term-dim">WHITE MONSTERS <span className="text-white">............ {metrics.whiteMonstersConsumed.toLocaleString()}</span></div>
-            <div className="text-term-dim">CASINO TRIPS <span className="text-white">.............. {metrics.casinoTrips}</span></div>
-            <div className="text-term-dim">CASINO NET PROFIT <span className="text-white" style={{ animation: 'blink 1.5s infinite' }}>......... -${Math.abs(metrics.casinoNetProfit).toLocaleString()}</span></div>
+            {/* Gauges + Stats */}
+            <div className="flex-1 min-w-0">
+              {/* Gauges */}
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {[
+                  { label: 'BLACKJACK WINRATE', value: `${metrics.blackjackWinrate}%`, pct: metrics.blackjackWinrate },
+                  { label: 'REDDIT ARGUMENTS WON', value: metrics.redditArgumentsWon.toLocaleString(), pct: 100 },
+                  { label: 'HARLEYS LOWBALLED', value: metrics.harleysLowballed.toLocaleString(), pct: 99 },
+                  { label: 'DATING MATCH RATE', value: `${metrics.datingMatchRate}%`, pct: metrics.datingMatchRate },
+                ].map((g, i) => {
+                  const barW = 15;
+                  const filled = Math.min(Math.round((g.pct / 100) * barW), barW);
+                  const bar = '█'.repeat(filled) + '░'.repeat(Math.max(barW - filled, 0));
+                  return (
+                    <div key={i} className="text-[10px]">
+                      <div className="text-term-dim">{g.label}</div>
+                      <div className="text-white">{g.value}</div>
+                      <div className="text-term-dim">{bar}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Stats block */}
+              <div className="text-[10px] space-y-0.5 font-mono">
+                <div className="text-term-dim">TEXTS AUTO-REPLIED <span className="text-white">........ {metrics.textsAutoReplied.toLocaleString()}</span></div>
+                <div className="text-term-dim">FB ARGUMENTS WON <span className="text-white">.......... {metrics.fbArgumentsWon}</span></div>
+                <div className="text-term-dim">FB ARGUMENTS LOST <span className="text-white">......... {metrics.fbArgumentsLost}</span></div>
+                <div className="text-term-dim">FB ARGUMENTS ONGOING <span className="text-white">...... {metrics.fbArgumentsOngoing}</span></div>
+                <div className="text-term-dim">TACTICAL VESTS FLIPPED <span className="text-white">.... {metrics.tacticalVestsFlipped}</span></div>
+                <div className="text-term-dim">SPORTS BETS WON <span className="text-white">........... {metrics.sportsBetsWon}</span></div>
+                <div className="text-term-dim">SPORTS BETS LOST <span className="text-white">.......... {metrics.sportsBetsLost}</span></div>
+                <div className="text-term-dim">BRAG POSTS DEPLOYED <span className="text-white">....... {metrics.bragPostsDeployed}</span></div>
+                <div className="text-term-dim">STEAKS CONSUMED <span className="text-white">........... {metrics.steaksConsumed.toLocaleString()}</span></div>
+                <div className="text-term-dim">WHITE MONSTERS <span className="text-white">............ {metrics.whiteMonstersConsumed.toLocaleString()}</span></div>
+                <div className="text-term-dim">CASINO TRIPS <span className="text-white">.............. {metrics.casinoTrips}</span></div>
+                <div className="text-term-dim">CASINO NET PROFIT <span className="text-white" style={{ animation: 'blink 1.5s infinite' }}>......... -${Math.abs(metrics.casinoNetProfit).toLocaleString()}</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
