@@ -290,16 +290,14 @@ export default function HellYeahSimulator() {
           </div>
         </div>
 
-        {/* Bottom-Right: Operational Metrics */}
+        {/* Bottom-Right: Operational Metrics + Radar */}
         <div className="bg-black p-3 overflow-auto">
-          <div className="text-[10px] text-term-dim mb-2">-- OPERATIONAL METRICS --</div>
+          <div className="text-[10px] text-term-dim mb-2">-- DATE ACQUISITION RADAR --</div>
 
           <div className="flex gap-3">
             {/* Sonar Radar */}
-            <div className="shrink-0">
-              <div className="text-[9px] text-[#00ff41] mb-1">-- DATE ACQUISITION RADAR --</div>
-              <div className="relative" style={{ width: 180, height: 180 }}>
-                <svg viewBox="0 0 200 200" width="180" height="180">
+            <div className="shrink-0 flex flex-col items-center">
+              <svg viewBox="0 0 200 200" className="w-[160px] h-[160px]">
                   {/* Background */}
                   <circle cx="100" cy="100" r="95" fill="none" stroke="#00ff4120" strokeWidth="1" />
                   <circle cx="100" cy="100" r="70" fill="none" stroke="#00ff4115" strokeWidth="0.5" />
@@ -362,7 +360,6 @@ export default function HellYeahSimulator() {
                   <text x="100" y="12" textAnchor="middle" fill="#00ff4160" fontSize="6" fontFamily="monospace">50MI</text>
                   <text x="100" y="37" textAnchor="middle" fill="#00ff4140" fontSize="5" fontFamily="monospace">30MI</text>
                 </svg>
-              </div>
               <div className="text-[9px] mt-1 flex gap-3">
                 <span className="flex items-center gap-1"><span style={{ color: '#00ff41' }}>●</span> HUZZ</span>
                 <span className="flex items-center gap-1"><span style={{ color: '#ff0040' }}>●</span> OPPS</span>
@@ -370,9 +367,9 @@ export default function HellYeahSimulator() {
               <div className="text-[9px] text-[#00ff41] opacity-50 mt-0.5">MATCH RATE: {metrics.datingMatchRate}%</div>
             </div>
 
-            {/* Gauges + Stats */}
+            {/* Stats */}
             <div className="flex-1 min-w-0">
-              {/* Gauges */}
+              <div className="text-[10px] text-term-dim mb-1">-- OPERATIONAL METRICS --</div>
               <div className="grid grid-cols-2 gap-2 mb-3">
                 {[
                   { label: 'BLACKJACK WINRATE', value: `${metrics.blackjackWinrate}%`, pct: metrics.blackjackWinrate },
