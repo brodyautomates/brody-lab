@@ -352,3 +352,84 @@ export const financialAlerts = [
   'TAX PAYMENT DUE IN 14 DAYS — $6,300 RESERVED',
   'SAAS MRR CROSSED $18K MILESTONE',
 ];
+
+// ========== HELL YEAH SIMULATOR ==========
+export interface GrindsetSequenceItem {
+  time: string;
+  operation: string;
+  status: 'COMPLETE' | 'ACTIVE' | 'STANDING BY' | 'ARMED' | 'LOADED' | 'QUEUED' | 'SYNCED';
+  substatus: string;
+  detail?: string;
+}
+
+export const grindsetSequence: GrindsetSequenceItem[] = [
+  { time: '0645', operation: 'ALARM TRIGGER', status: 'COMPLETE', substatus: 'Rise and grind deployment queued' },
+  { time: '0645', operation: 'SOCIAL MEDIA BROADCAST', status: 'COMPLETE', substatus: '> POSTING: "Rise and grind" to ALL CHANNELS', detail: 'IG/X/FB/TT/LI — ALL DEPLOYED' },
+  { time: '0650', operation: 'AUDIO SYSTEM OVERRIDE', status: 'ACTIVE', substatus: 'SPOTIFY API → Man in the Box — Alice in Chains', detail: 'VOLUME: MAXIMUM' },
+  { time: '0700', operation: 'SUSTENANCE DELIVERY', status: 'QUEUED', substatus: 'DOORDASH API → Beer (x6) + Cigarettes (x2)', detail: 'ETA: 13 MIN' },
+  { time: '0715', operation: 'TRANSPORT DISPATCH', status: 'SYNCED', substatus: 'UBER API → Destination: CASINO', detail: 'Timed to sustenance delivery arrival' },
+];
+
+export interface InterceptLogEntry {
+  time: string;
+  category: string;
+  message: string;
+  status: string;
+  statusType: 'success' | 'progress' | 'alert';
+}
+
+export const interceptLogEntries: InterceptLogEntry[] = [
+  { time: '0645', category: 'SOCIAL', message: 'Posted "Rise and grind" to Instagram', status: 'DEPLOYED', statusType: 'success' },
+  { time: '0645', category: 'SOCIAL', message: 'Posted "Rise and grind" to Twitter', status: 'DEPLOYED', statusType: 'success' },
+  { time: '0645', category: 'SOCIAL', message: 'Posted "Rise and grind" to Facebook', status: 'DEPLOYED', statusType: 'success' },
+  { time: '0650', category: 'AUDIO', message: 'Spotify: Now playing "Man in the Box" — Alice in Chains', status: 'ACTIVE', statusType: 'success' },
+  { time: '0651', category: 'COMMS', message: 'Auto-replied to Mom: "can\'t talk grinding"', status: 'SENT', statusType: 'success' },
+  { time: '0651', category: 'COMMS', message: 'Auto-replied to Boss: "can\'t talk grinding"', status: 'SENT', statusType: 'success' },
+  { time: '0655', category: 'SUPPLY', message: 'DoorDash order placed: Beer x6, Cigarettes x2', status: 'CONFIRMED', statusType: 'success' },
+  { time: '0702', category: 'SUPPLY', message: 'DoorDash ETA: 13 minutes', status: 'TRACKING', statusType: 'progress' },
+  { time: '0715', category: 'TRANSPORT', message: 'Uber dispatched to: CASINO', status: 'EN ROUTE', statusType: 'success' },
+  { time: '0720', category: 'BETTING', message: 'Arbitrage scan: 847 opportunities analyzed', status: 'COMPLETE', statusType: 'success' },
+  { time: '0721', category: 'BETTING', message: 'WIN detected: $47.50 on Packers ML', status: 'PROFIT', statusType: 'success' },
+  { time: '0721', category: 'SOCIAL', message: 'Brag post deployed: "Just hit another parlay"', status: 'DEPLOYED', statusType: 'success' },
+  { time: '0722', category: 'MARKETPLACE', message: 'Lowball batch sent: 10,000 Harleys targeted', status: 'DISPATCHED', statusType: 'success' },
+  { time: '0722', category: 'MARKETPLACE', message: 'Response received: "Are you serious?"', status: 'IGNORED', statusType: 'progress' },
+  { time: '0723', category: 'DATING', message: 'Swipe session: 342 right swipes in 50mi radius', status: 'COMPLETE', statusType: 'success' },
+  { time: '0723', category: 'DATING', message: 'Match detected: "Linda, 47, loves fishing"', status: 'ALERT', statusType: 'alert' },
+  { time: '0730', category: 'SOCIAL', message: 'FB Group argument initiated: "Actually, crypto is..."', status: 'ENGAGED', statusType: 'success' },
+  { time: '0731', category: 'SOCIAL', message: 'FB Group argument escalating', status: 'ONGOING', statusType: 'progress' },
+  { time: '0731', category: 'SOCIAL', message: 'FB Group: Got called a bot. Denied it', status: 'DEFLECTED', statusType: 'success' },
+  { time: '0800', category: 'SUPPLY', message: 'Meal order: Steak + White Monster x2', status: 'LUNCH QUEUED', statusType: 'success' },
+  { time: '0801', category: 'COMMERCE', message: 'eBay Flipper: Purchased bulk tactical vests x200', status: 'ACQUIRED', statusType: 'success' },
+  { time: '0802', category: 'COMMERCE', message: 'eBay Flipper: Listed 200 tactical vests at 3x', status: 'LISTED', statusType: 'success' },
+  { time: '0803', category: 'COMMERCE', message: 'eBay Flipper: 1 vest sold. Profit: $4.20', status: 'FLIPPED', statusType: 'success' },
+];
+
+export const grindsetMetrics = {
+  textsAutoReplied: 2847,
+  fbArgumentsWon: 0,
+  fbArgumentsLost: 47,
+  fbArgumentsOngoing: 12,
+  tacticalVestsFlipped: 3,
+  sportsBetsWon: 2,
+  sportsBetsLost: 41,
+  bragPostsDeployed: 2,
+  steaksConsumed: 1694,
+  whiteMonstersConsumed: 3388,
+  casinoTrips: 847,
+  casinoNetProfit: -48271,
+  harleysLowballed: 847291,
+  datingMatchRate: 0.02,
+  grindIntensity: 98,
+  sigmaScore: 11,
+};
+
+export const grindsetTelemetry = [
+  'HELL YEAH PROTOCOL ACTIVE',
+  'SLEEP IS FOR THE WEAK',
+  'LOWBALLING 10,000 HARLEYS PER HOUR',
+  'SIGMA GRINDSET ENGAGED',
+  'CASINO NET: -$48,271 BUT WE\'RE UP IN EXPERIENCE',
+  'AUTO-ARGUING IN 12 FB GROUPS',
+  'TACTICAL GEAR INVENTORY: 197 UNSOLD VESTS',
+  'NEXT STEAK ETA: 4H 22M',
+];
