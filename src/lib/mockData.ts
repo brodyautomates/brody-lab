@@ -420,7 +420,7 @@ export const grindsetMetrics = {
   harleysLowballed: 847291,
   datingMatchRate: 0.02,
   blackjackWinrate: 71,
-  redditArgumentsWon: 0,
+  redditArgumentsWon: 83011,
 };
 
 export const grindsetTelemetry = [

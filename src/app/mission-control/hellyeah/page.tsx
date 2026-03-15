@@ -132,7 +132,7 @@ export default function HellYeahSimulator() {
           </span>
           <span className="flex items-center gap-1.5">
             <span className="text-white" style={{ animation: 'pulse 3s infinite' }}>●</span>
-            <span className="text-term-dim">REDDIT ARGS: 0</span>
+            <span className="text-term-dim">REDDIT ARGS: 83,011</span>
           </span>
           <span className="flex items-center gap-1.5">
             <span style={{ animation: 'blink 1s infinite', color: '#888' }}>●</span>
