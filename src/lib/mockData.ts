@@ -63,12 +63,18 @@ export const agentConnections = [
   { from: 'optimizer', to: 'reporter' },
 ];
 
+// Seeded pseudo-random for deterministic builds
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9301 + 49297) * 49297;
+  return x - Math.floor(x);
+}
+
 export const chartData = Array.from({ length: 30 }, (_, i) => ({
   day: `D${i + 1}`,
-  cpa: 25 + Math.sin(i * 0.5) * 8 + Math.random() * 4,
-  roas: 3.2 + Math.cos(i * 0.3) * 1.2 + Math.random() * 0.5,
-  spend: 1200 + Math.sin(i * 0.4) * 400 + Math.random() * 200,
-  conversions: 40 + Math.sin(i * 0.6) * 15 + Math.random() * 10,
+  cpa: +(25 + Math.sin(i * 0.5) * 8 + seededRandom(i) * 4).toFixed(2),
+  roas: +(3.2 + Math.cos(i * 0.3) * 1.2 + seededRandom(i + 100) * 0.5).toFixed(2),
+  spend: +(1200 + Math.sin(i * 0.4) * 400 + seededRandom(i + 200) * 200).toFixed(0),
+  conversions: +(40 + Math.sin(i * 0.6) * 15 + seededRandom(i + 300) * 10).toFixed(0),
 }));
 
 export const systemStats = {
