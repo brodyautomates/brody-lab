@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crt-green: #00ff41;
+  --color-crt-amber: #ffb000;
+  --color-crt-black: #0a0a0a;
+  --color-crt-navy: #1a1a2e;
+  --color-crt-green-dim: #00aa2a;
+  --color-crt-amber-dim: #aa7700;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+  92% { opacity: 0.95; }
+  94% { opacity: 0.99; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes flow-dot {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px var(--color-crt-green), 0 0 8px var(--color-crt-green); }
+  50% { box-shadow: 0 0 8px var(--color-crt-green), 0 0 16px var(--color-crt-green); }
+}
+
+body {
+  background: var(--color-crt-black);
+  color: var(--color-crt-green);
+  font-family: 'VT323', monospace;
+  text-transform: uppercase;
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-crt-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-crt-green-dim);
+  border: 1px solid var(--color-crt-green);
+}
