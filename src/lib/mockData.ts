@@ -419,8 +419,8 @@ export const grindsetMetrics = {
   casinoNetProfit: -48271,
   harleysLowballed: 847291,
   datingMatchRate: 0.02,
-  grindIntensity: 98,
-  sigmaScore: 11,
+  blackjackWinrate: 71,
+  redditArgumentsWon: 0,
 };
 
 export const grindsetTelemetry = [
