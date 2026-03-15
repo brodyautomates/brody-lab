@@ -3,14 +3,14 @@
 import { telemetryFeed } from '@/lib/mockData';
 
 export default function StatusTicker() {
-  const text = telemetryFeed.join('  ///  ');
-  const doubled = `${text}  ///  ${text}`;
+  const text = telemetryFeed.join('  |  ');
+  const doubled = `${text}  |  ${text}`;
 
   return (
-    <div className="border-t border-crt-green overflow-hidden py-1" style={{ boxShadow: '0 0 4px #00ff41' }}>
+    <div className="border-t border-[#222] overflow-hidden py-0.5 bg-black">
       <div
-        className="whitespace-nowrap text-crt-amber text-sm"
-        style={{ animation: 'scroll-left 30s linear infinite' }}
+        className="whitespace-nowrap text-term-dim text-xs"
+        style={{ animation: 'scroll-left 40s linear infinite' }}
       >
         {doubled}
       </div>

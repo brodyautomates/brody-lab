@@ -1,99 +1,161 @@
 'use client';
 
-import { useState } from 'react';
-import { agentNodes, agentConnections } from '@/lib/mockData';
+import { useState, useEffect, useRef } from 'react';
 
-const statusColors: Record<string, string> = {
-  active: '#00ff41',
-  processing: '#ffb000',
-  alert: '#ff0040',
-};
+interface Node {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  children: string[];
+  depth: number;
+}
 
-const agentTelemetry: Record<string, { metric: string; value: string }[]> = {
-  audience: [
-    { metric: 'SEGMENTS SCANNED', value: '2,847' },
-    { metric: 'LOOKALIKES ACTIVE', value: '12' },
-    { metric: 'SATURATION INDEX', value: '0.67' },
-  ],
-  creative: [
-    { metric: 'VARIANTS DEPLOYED', value: '48' },
-    { metric: 'FATIGUE INDEX', value: '0.23' },
-    { metric: 'TOP VARIANT CTR', value: '3.2%' },
-  ],
-  budget: [
-    { metric: 'TOTAL ALLOCATED', value: '$1,875' },
-    { metric: 'UTILIZATION', value: '94.7%' },
-    { metric: 'REALLOCATIONS TODAY', value: '3' },
-  ],
-  monitor: [
-    { metric: 'METRICS TRACKED', value: '24' },
-    { metric: 'ALERTS FIRED', value: '2' },
-    { metric: 'AVG RESPONSE TIME', value: '1.2s' },
-  ],
-  optimizer: [
-    { metric: 'OPTIMIZATIONS RUN', value: '47' },
-    { metric: 'ROAS IMPROVEMENT', value: '+12.3%' },
-    { metric: 'CPA REDUCTION', value: '-8.7%' },
-  ],
-  reporter: [
-    { metric: 'REPORTS GENERATED', value: '156' },
-    { metric: 'LAST REPORT', value: '14:30 UTC' },
-    { metric: 'ANOMALIES FLAGGED', value: '1' },
-  ],
-};
+// Generate a complex tree structure
+function generateTree(): Node[] {
+  const nodes: Node[] = [];
+  const root = { id: 'ROOT', label: 'ORCHESTRATOR', x: 600, y: 30, children: ['A', 'B', 'C'], depth: 0 };
+  nodes.push(root);
+
+  const layer1 = [
+    { id: 'A', label: 'AUDIENCE_SCAN', x: 200, y: 120, children: ['A1', 'A2', 'A3'], depth: 1 },
+    { id: 'B', label: 'CREATIVE_ENGINE', x: 600, y: 120, children: ['B1', 'B2'], depth: 1 },
+    { id: 'C', label: 'BUDGET_ALLOC', x: 1000, y: 120, children: ['C1', 'C2', 'C3'], depth: 1 },
+  ];
+  nodes.push(...layer1);
+
+  const layer2 = [
+    { id: 'A1', label: 'LOOKALIKE_GEN', x: 80, y: 220, children: ['A1a', 'A1b'], depth: 2 },
+    { id: 'A2', label: 'INTEREST_MAP', x: 200, y: 220, children: ['A2a'], depth: 2 },
+    { id: 'A3', label: 'RETARGET_POOL', x: 320, y: 220, children: ['A3a', 'A3b'], depth: 2 },
+    { id: 'B1', label: 'VARIANT_TEST', x: 520, y: 220, children: ['B1a', 'B1b', 'B1c'], depth: 2 },
+    { id: 'B2', label: 'COPY_WRITER', x: 680, y: 220, children: ['B2a'], depth: 2 },
+    { id: 'C1', label: 'SPEND_OPTIMIZER', x: 880, y: 220, children: ['C1a', 'C1b'], depth: 2 },
+    { id: 'C2', label: 'BID_STRATEGY', x: 1020, y: 220, children: ['C2a'], depth: 2 },
+    { id: 'C3', label: 'PACING_CTRL', x: 1140, y: 220, children: [], depth: 2 },
+  ];
+  nodes.push(...layer2);
+
+  const layer3 = [
+    { id: 'A1a', label: 'SEED_1%', x: 40, y: 320, children: [], depth: 3 },
+    { id: 'A1b', label: 'SEED_3%', x: 130, y: 320, children: [], depth: 3 },
+    { id: 'A2a', label: 'AFFINITY_CLU', x: 200, y: 320, children: [], depth: 3 },
+    { id: 'A3a', label: 'SITE_VISIT', x: 290, y: 320, children: [], depth: 3 },
+    { id: 'A3b', label: 'CART_ABANDON', x: 380, y: 320, children: [], depth: 3 },
+    { id: 'B1a', label: 'IMG_VAR_A', x: 460, y: 320, children: [], depth: 3 },
+    { id: 'B1b', label: 'IMG_VAR_B', x: 540, y: 320, children: [], depth: 3 },
+    { id: 'B1c', label: 'VID_VAR_A', x: 620, y: 320, children: [], depth: 3 },
+    { id: 'B2a', label: 'HEADLINE_GEN', x: 710, y: 320, children: [], depth: 3 },
+    { id: 'C1a', label: 'CPA_TARGET', x: 840, y: 320, children: [], depth: 3 },
+    { id: 'C1b', label: 'ROAS_TARGET', x: 940, y: 320, children: [], depth: 3 },
+    { id: 'C2a', label: 'AUTO_BID', x: 1040, y: 320, children: [], depth: 3 },
+  ];
+  nodes.push(...layer3);
+
+  return nodes;
+}
+
+interface Particle {
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  progress: number;
+  speed: number;
+}
 
 export default function NodeGraph({ compact = false }: { compact?: boolean }) {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [activeNodes, setActiveNodes] = useState<Set<string>>(new Set());
+  const nodesRef = useRef(generateTree());
+  const nodes = nodesRef.current;
 
-  const scale = compact ? 0.45 : 0.8;
-  const viewBox = compact ? '0 0 1300 300' : '0 0 1300 400';
-  const nodeWidth = 140;
-  const nodeHeight = 60;
+  useEffect(() => {
+    // Create particles flowing through edges
+    const edges: [Node, Node][] = [];
+    nodes.forEach(node => {
+      node.children.forEach(childId => {
+        const child = nodes.find(n => n.id === childId);
+        if (child) edges.push([node, child]);
+      });
+    });
+
+    const initialParticles: Particle[] = edges.flatMap(([from, to]) =>
+      Array.from({ length: 3 }, () => ({
+        fromX: from.x, fromY: from.y + 10,
+        toX: to.x, toY: to.y - 5,
+        progress: Math.random(),
+        speed: 0.003 + Math.random() * 0.004,
+      }))
+    );
+    setParticles(initialParticles);
+
+    const interval = setInterval(() => {
+      setParticles(prev => prev.map(p => ({
+        ...p,
+        progress: (p.progress + p.speed) % 1,
+      })));
+    }, 30);
+
+    // Randomly activate nodes
+    const activeInterval = setInterval(() => {
+      const randomNodes = nodes
+        .filter(() => Math.random() > 0.6)
+        .map(n => n.id);
+      setActiveNodes(new Set(randomNodes));
+    }, 800);
+
+    return () => { clearInterval(interval); clearInterval(activeInterval); };
+  }, [nodes]);
+
+  const viewBox = compact ? '0 -10 1200 380' : '0 -20 1200 400';
 
   return (
-    <div className="relative">
-      <svg viewBox={viewBox} className="w-full" style={{ filter: 'drop-shadow(0 0 2px #00ff41)' }}>
-        {/* Grid dots background */}
+    <div className="relative w-full h-full">
+      <svg viewBox={viewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+        {/* Grid */}
         <defs>
-          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="#00ff4120" />
+          <pattern id="termgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="0" cy="0" r="0.3" fill="#333" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
+        <rect x="-100" y="-100" width="1400" height="600" fill="url(#termgrid)" />
 
-        {/* Connections */}
-        {agentConnections.map((conn, i) => {
-          const from = agentNodes.find(n => n.id === conn.from)!;
-          const to = agentNodes.find(n => n.id === conn.to)!;
-          const x1 = from.x + nodeWidth / 2;
-          const y1 = from.y + nodeHeight / 2;
-          const x2 = to.x + nodeWidth / 2;
-          const y2 = to.y + nodeHeight / 2;
-
-          return (
-            <g key={i}>
+        {/* Edges */}
+        {nodes.map(node =>
+          node.children.map(childId => {
+            const child = nodes.find(n => n.id === childId);
+            if (!child) return null;
+            return (
               <line
-                x1={x1} y1={y1} x2={x2} y2={y2}
-                stroke="#00ff4140" strokeWidth="2" strokeDasharray="8 4"
+                key={`${node.id}-${childId}`}
+                x1={node.x} y1={node.y + 10}
+                x2={child.x} y2={child.y - 5}
+                stroke="#333" strokeWidth="1"
               />
-              {/* Animated flow dots */}
-              {[0, 0.33, 0.66].map((delay, j) => (
-                <circle key={j} r="3" fill="#00ff41">
-                  <animateMotion
-                    dur="3s" repeatCount="indefinite"
-                    begin={`${delay * 3}s`}
-                    path={`M${x1},${y1} L${x2},${y2}`}
-                  />
-                </circle>
-              ))}
-            </g>
+            );
+          })
+        )}
+
+        {/* Particles */}
+        {particles.map((p, i) => {
+          const x = p.fromX + (p.toX - p.fromX) * p.progress;
+          const y = p.fromY + (p.toY - p.fromY) * p.progress;
+          return (
+            <circle
+              key={i} cx={x} cy={y} r="1.5"
+              fill="#fff" opacity={0.6 + Math.sin(p.progress * Math.PI) * 0.4}
+            />
           );
         })}
 
         {/* Nodes */}
-        {agentNodes.map((node) => {
-          const color = statusColors[node.status];
+        {nodes.map(node => {
+          const isActive = activeNodes.has(node.id);
           const isSelected = selectedNode === node.id;
+          const isLeaf = node.children.length === 0;
+          const w = isLeaf ? 70 : (node.depth === 0 ? 100 : 85);
 
           return (
             <g
@@ -101,60 +163,55 @@ export default function NodeGraph({ compact = false }: { compact?: boolean }) {
               onClick={() => !compact && setSelectedNode(isSelected ? null : node.id)}
               style={{ cursor: compact ? 'default' : 'pointer' }}
             >
+              {/* Node box */}
               <rect
-                x={node.x} y={node.y}
-                width={nodeWidth} height={nodeHeight}
-                fill="#1a1a2e" stroke={color} strokeWidth="2"
-                style={{ filter: `drop-shadow(0 0 4px ${color})` }}
+                x={node.x - w / 2} y={node.y - 12}
+                width={w} height={24}
+                fill={isSelected ? '#fff' : '#000'}
+                stroke={isActive ? '#fff' : '#444'}
+                strokeWidth={isSelected ? 1.5 : 0.5}
               />
-              {/* Status light */}
-              <circle
-                cx={node.x + nodeWidth - 10} cy={node.y + 10}
-                r="4" fill={color}
-              >
-                <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
-              </circle>
               {/* Label */}
-              {node.label.split('\n').map((line, i) => (
-                <text
-                  key={i}
-                  x={node.x + nodeWidth / 2}
-                  y={node.y + nodeHeight / 2 + (i - (node.label.split('\n').length - 1) / 2) * 14}
-                  textAnchor="middle" dominantBaseline="central"
-                  fill={color} fontSize="11" fontFamily="VT323, monospace"
-                >
-                  {line}
-                </text>
-              ))}
+              <text
+                x={node.x} y={node.y + 1}
+                textAnchor="middle" dominantBaseline="central"
+                fill={isSelected ? '#000' : (isActive ? '#fff' : '#888')}
+                fontSize={isLeaf ? 6 : (node.depth === 0 ? 8 : 7)}
+                fontFamily="monospace"
+              >
+                {node.label}
+              </text>
+              {/* Activity indicator */}
+              {isActive && (
+                <circle cx={node.x + w / 2 - 4} cy={node.y - 8} r="1.5" fill="#fff">
+                  <animate attributeName="opacity" values="1;0.2;1" dur="0.8s" repeatCount="indefinite" />
+                </circle>
+              )}
             </g>
           );
         })}
       </svg>
 
-      {/* Side panel */}
+      {/* Selected node telemetry */}
       {selectedNode && !compact && (
-        <div
-          className="absolute top-0 right-0 w-72 h-full bg-crt-navy border-l border-crt-green p-4 overflow-auto"
-          style={{ boxShadow: '-4px 0 8px rgba(0,255,65,0.1)' }}
-        >
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-crt-amber text-sm" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '9px' }}>
-              AGENT TELEMETRY
-            </h3>
-            <button onClick={() => setSelectedNode(null)} className="text-crt-green hover:text-crt-amber cursor-pointer">
-              [X]
-            </button>
+        <div className="absolute top-0 right-0 w-64 h-full bg-black border-l border-[#333] p-3 text-xs overflow-auto">
+          <div className="flex justify-between mb-3">
+            <span className="text-white">NODE: {selectedNode}</span>
+            <button onClick={() => setSelectedNode(null)} className="text-term-dim hover:text-white cursor-pointer">[x]</button>
           </div>
-          <div className="text-crt-green text-sm mb-4">
-            {agentNodes.find(n => n.id === selectedNode)?.label.replace('\n', ' ')}
+          <div className="text-term-dim mb-3">
+            {nodes.find(n => n.id === selectedNode)?.label}
           </div>
-          <div className="space-y-3">
-            {agentTelemetry[selectedNode]?.map((item, i) => (
-              <div key={i} className="border-b border-crt-green pb-2 opacity-80">
-                <div className="text-xs text-crt-green opacity-60">{item.metric}</div>
-                <div className="text-crt-amber">{item.value}</div>
-              </div>
-            ))}
+          <div className="space-y-1 text-term-dim">
+            <div>STATUS .... <span className="text-white">ACTIVE</span></div>
+            <div>UPTIME .... <span className="text-white">1847H</span></div>
+            <div>CYCLES .... <span className="text-white">{Math.floor(Math.random() * 9000 + 1000)}</span></div>
+            <div>LATENCY ... <span className="text-white">{(Math.random() * 2 + 0.1).toFixed(1)}MS</span></div>
+            <div>ERRORS .... <span className="text-white">0</span></div>
+            <div>LOAD ...... <span className="text-white">{Math.floor(Math.random() * 40 + 20)}%</span></div>
+            <div className="pt-2 border-t border-[#222] mt-2">
+              CHILDREN: {nodes.find(n => n.id === selectedNode)?.children.join(', ') || 'LEAF'}
+            </div>
           </div>
         </div>
       )}

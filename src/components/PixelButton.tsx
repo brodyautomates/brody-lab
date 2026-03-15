@@ -10,14 +10,13 @@ export default function PixelButton({ children, active, onClick }: PixelButtonPr
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 text-sm border transition-all cursor-pointer ${
+      className={`px-3 py-1 text-xs border transition-all cursor-pointer font-mono ${
         active
-          ? 'bg-crt-green text-crt-black border-crt-green'
-          : 'bg-transparent text-crt-green border-crt-green hover:bg-crt-green hover:text-crt-black'
+          ? 'bg-white text-black border-white'
+          : 'bg-transparent text-term-dim border-[#333] hover:border-[#666] hover:text-white'
       }`}
-      style={{ boxShadow: active ? '0 0 8px #00ff41' : '0 0 4px #00ff41', fontFamily: "'VT323', monospace" }}
     >
-      {children}
+      [{children}]
     </button>
   );
 }

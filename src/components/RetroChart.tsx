@@ -19,11 +19,11 @@ export default function RetroChart(props: RetroChartProps) {
   useEffect(() => setMounted(true), []);
 
   return (
-    <div className="border border-crt-green bg-crt-navy p-4" style={{ boxShadow: '0 0 4px #00ff41' }}>
-      <div className="mb-3 text-xs tracking-widest text-crt-amber" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '8px' }}>
+    <div className="border border-[#333] p-3 bg-black">
+      <div className="mb-2 text-xs text-term-dim tracking-wider">
         {props.title}
       </div>
-      {mounted ? <LazyChart {...props} /> : <div className="h-[200px] flex items-center justify-center text-crt-green text-sm opacity-40">LOADING SIGNAL...</div>}
+      {mounted ? <LazyChart {...props} /> : <div className="h-[180px] flex items-center justify-center text-term-dim text-xs">LOADING...</div>}
     </div>
   );
 }

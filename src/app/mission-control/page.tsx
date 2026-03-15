@@ -6,84 +6,67 @@ import { actionsLog, systemStats } from '@/lib/mockData';
 
 export default function MissionControlDashboard() {
   return (
-    <div className="p-4 grid grid-cols-2 grid-rows-2 gap-4 h-[calc(100vh-80px)]">
+    <div className="p-3 grid grid-cols-2 grid-rows-2 gap-2 h-[calc(100vh-64px)]">
       {/* Top Left: System Status */}
-      <div className="border border-crt-green bg-crt-navy p-4 overflow-hidden" style={{ boxShadow: '0 0 4px #00ff41' }}>
-        <h2 className="text-crt-amber text-xs tracking-widest mb-4" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '8px' }}>
-          SYSTEM STATUS
-        </h2>
+      <div className="border border-[#333] p-3 overflow-hidden bg-black">
+        <div className="text-xs text-term-dim mb-3">-- SYSTEM STATUS --</div>
 
-        {/* Autopilot indicator */}
-        <div className="flex items-center gap-3 mb-5 border border-crt-green p-2" style={{ boxShadow: '0 0 8px #00ff41', animation: 'glow-pulse 3s infinite' }}>
-          <span className="inline-block w-3 h-3 bg-crt-green" style={{ animation: 'blink 1s infinite' }} />
-          <span className="text-crt-green text-sm tracking-widest">AUTOPILOT ENGAGED</span>
+        <div className="flex items-center gap-2 mb-3 text-xs">
+          <span className="text-white" style={{ animation: 'pulse 2s infinite' }}>●</span>
+          <span className="text-white">AUTOPILOT ENGAGED</span>
+          <span className="text-term-dim">UPTIME: {systemStats.uptimeHours.toLocaleString()}H</span>
         </div>
 
-        {/* Uptime */}
-        <div className="text-xs text-crt-green opacity-60 mb-4">
-          UPTIME: {systemStats.uptimeHours.toLocaleString()} HRS
-        </div>
-
-        {/* Gauges */}
-        <div className="grid grid-cols-4 gap-2">
-          <GaugeReadout label="TOTAL SPEND" value={`$${(systemStats.totalSpend / 1000).toFixed(1)}K`} percentage={78} />
-          <GaugeReadout label="AVG ROAS" value={`${systemStats.avgRoas}x`} percentage={71} color="#ffb000" />
+        <div className="grid grid-cols-4 gap-3">
+          <GaugeReadout label="SPEND" value={`$${(systemStats.totalSpend / 1000).toFixed(1)}K`} percentage={78} />
+          <GaugeReadout label="ROAS" value={`${systemStats.avgRoas}x`} percentage={71} />
           <GaugeReadout label="ACTIVE" value={`${systemStats.activeCampaigns}`} percentage={62} />
-          <GaugeReadout label="CONV TODAY" value={`${systemStats.conversionsToday}`} percentage={85} color="#ffb000" />
+          <GaugeReadout label="CONV" value={`${systemStats.conversionsToday}`} percentage={85} />
         </div>
       </div>
 
       {/* Top Right: Mini Node Graph */}
-      <div className="border border-crt-green bg-crt-navy p-4 overflow-hidden" style={{ boxShadow: '0 0 4px #00ff41' }}>
-        <h2 className="text-crt-amber text-xs tracking-widest mb-2" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '8px' }}>
-          AGENT PIPELINE STATUS
-        </h2>
+      <div className="border border-[#333] p-3 overflow-hidden bg-black">
+        <div className="text-xs text-term-dim mb-1">-- NODE TREE --</div>
         <NodeGraph compact />
       </div>
 
       {/* Bottom Left: Actions Log */}
-      <div className="border border-crt-green bg-crt-navy p-4 overflow-auto" style={{ boxShadow: '0 0 4px #00ff41' }}>
-        <h2 className="text-crt-amber text-xs tracking-widest mb-4" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '8px' }}>
-          RECENT ACTIONS
-        </h2>
-        <div className="space-y-2 font-mono text-sm">
+      <div className="border border-[#333] p-3 overflow-auto bg-black">
+        <div className="text-xs text-term-dim mb-2">-- LOG --</div>
+        <div className="space-y-1 text-xs font-mono">
           {actionsLog.map((entry, i) => (
-            <div key={i} className="flex gap-3">
-              <span className="text-crt-amber shrink-0">[{entry.time}]</span>
-              <span className="text-crt-green opacity-80">{entry.action}</span>
+            <div key={i} className="flex gap-2">
+              <span className="text-term-dim shrink-0">{entry.time}</span>
+              <span className="text-term-white opacity-70">{entry.action}</span>
             </div>
           ))}
-          <div className="text-crt-green mt-2" style={{ animation: 'blink 1s infinite' }}>█</div>
+          <div className="text-white mt-1" style={{ animation: 'blink 1s infinite' }}>█</div>
         </div>
       </div>
 
-      {/* Bottom Right: Live Telemetry */}
-      <div className="border border-crt-green bg-crt-navy p-4 overflow-auto" style={{ boxShadow: '0 0 4px #00ff41' }}>
-        <h2 className="text-crt-amber text-xs tracking-widest mb-4" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '8px' }}>
-          LIVE TELEMETRY
-        </h2>
-        <div className="space-y-3 text-sm">
+      {/* Bottom Right: Telemetry */}
+      <div className="border border-[#333] p-3 overflow-auto bg-black">
+        <div className="text-xs text-term-dim mb-2">-- TELEMETRY --</div>
+        <div className="space-y-2 text-xs">
           {[
             { label: 'DAILY SPEND', value: '$1,775 / $1,875', pct: 94.7 },
             { label: 'FLEET ROAS', value: '3.55x', pct: 71 },
-            { label: 'CONV VELOCITY', value: '18.4/HR', pct: 82 },
+            { label: 'CONV/HR', value: '18.4', pct: 82 },
             { label: 'BUDGET UTIL', value: '94.7%', pct: 94.7 },
-            { label: 'CREATIVE FATIGUE', value: '0.23 (LOW)', pct: 23 },
+            { label: 'CREATIVE FAT', value: '0.23', pct: 23 },
             { label: 'AUDIENCE SAT', value: '67%', pct: 67 },
-          ].map((item, i) => (
-            <div key={i}>
-              <div className="flex justify-between mb-1">
-                <span className="text-crt-green opacity-60">{item.label}</span>
-                <span className="text-crt-amber">{item.value}</span>
+          ].map((item, i) => {
+            const barWidth = 20;
+            const filled = Math.round((item.pct / 100) * barWidth);
+            const bar = '█'.repeat(filled) + '░'.repeat(barWidth - filled);
+            return (
+              <div key={i} className="flex justify-between text-term-dim">
+                <span>{item.label}</span>
+                <span className="text-white">{item.value} {bar}</span>
               </div>
-              <div className="h-1 bg-crt-black border border-crt-green">
-                <div
-                  className="h-full bg-crt-green"
-                  style={{ width: `${item.pct}%`, boxShadow: '0 0 4px #00ff41', transition: 'width 1s ease' }}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

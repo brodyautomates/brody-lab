@@ -5,32 +5,38 @@ import Link from 'next/link';
 
 export default function TerminalHeader() {
   const [time, setTime] = useState('');
+  const [frame, setFrame] = useState(0);
 
   useEffect(() => {
     const update = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('en-US', { hour12: false }));
+      setTime(new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z');
     };
     update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
+    const t1 = setInterval(update, 1000);
+    const t2 = setInterval(() => setFrame(f => f + 1), 150);
+    return () => { clearInterval(t1); clearInterval(t2); };
   }, []);
 
+  const spinner = ['|', '/', '-', '\\'][frame % 4];
+
   return (
-    <header className="border-b border-crt-green flex items-center justify-between px-4 py-2" style={{ boxShadow: '0 0 4px #00ff41' }}>
-      <Link href="/mission-control" className="text-crt-green text-lg tracking-widest hover:text-crt-amber transition-colors" style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '10px' }}>
-        MISSION CONTROL v2.4.1
-      </Link>
-      <nav className="flex gap-6 text-sm">
-        <Link href="/mission-control" className="text-crt-green hover:text-crt-amber transition-colors">DASHBOARD</Link>
-        <Link href="/mission-control/autopilot" className="text-crt-green hover:text-crt-amber transition-colors">AUTOPILOT</Link>
-        <Link href="/mission-control/campaigns" className="text-crt-green hover:text-crt-amber transition-colors">MISSIONS</Link>
-        <Link href="/mission-control/analytics" className="text-crt-green hover:text-crt-amber transition-colors">SIGNALS</Link>
+    <header className="border-b border-[#222] px-3 py-1.5 flex items-center justify-between text-xs">
+      <div className="flex items-center gap-4">
+        <Link href="/mission-control" className="text-white hover:text-term-dim transition-colors">
+          MISSION_CONTROL
+        </Link>
+        <span className="text-term-dim">PID:4821</span>
+        <span className="text-term-dim">{spinner}</span>
+      </div>
+      <nav className="flex gap-4">
+        <Link href="/mission-control" className="text-term-dim hover:text-white transition-colors">SYS</Link>
+        <Link href="/mission-control/autopilot" className="text-term-dim hover:text-white transition-colors">NODES</Link>
+        <Link href="/mission-control/campaigns" className="text-term-dim hover:text-white transition-colors">OPS</Link>
+        <Link href="/mission-control/analytics" className="text-term-dim hover:text-white transition-colors">SIG</Link>
       </nav>
-      <div className="flex items-center gap-4 text-sm">
-        <span className="inline-block w-2 h-2 bg-crt-green" style={{ animation: 'pulse 2s infinite', boxShadow: '0 0 6px #00ff41' }} />
-        <span className="text-crt-green">SYSTEM ONLINE</span>
-        <span className="text-crt-amber">{time}</span>
+      <div className="flex items-center gap-3 text-term-dim">
+        <span className="text-white" style={{ animation: 'pulse 3s infinite' }}>●</span>
+        <span>{time}</span>
       </div>
     </header>
   );
