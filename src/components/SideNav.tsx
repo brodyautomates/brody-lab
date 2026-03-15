@@ -51,6 +51,15 @@ const navItems = [
     ),
   },
   {
+    href: '/mission-control/leads',
+    label: 'LEADS',
+    icon: (
+      <svg viewBox="0 0 16 16" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="6" cy="5" r="3" /><path d="M1 14C1 11 3 9 6 9" /><circle cx="11" cy="6" r="2.5" /><path d="M15 14C15 11.5 13.5 10 11 10" />
+      </svg>
+    ),
+  },
+  {
     href: '/mission-control/harvest',
     label: 'HARVEST',
     icon: (

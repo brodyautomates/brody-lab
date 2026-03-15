@@ -433,3 +433,99 @@ export const grindsetTelemetry = [
   'TACTICAL GEAR INVENTORY: 197 UNSOLD VESTS',
   'NEXT STEAK ETA: 4H 22M',
 ];
+
+// ========== LEADS DASHBOARD ==========
+export interface DashboardLead {
+  id: string;
+  name: string;
+  company: string;
+  email: string;
+  score: number;
+  source: 'INSTAGRAM' | 'GOOGLE MAPS' | 'LINKEDIN' | 'COLD EMAIL' | 'REFERRAL' | 'WEBSITE';
+  status: 'NEW' | 'CONTACTED' | 'QUALIFIED' | 'NEGOTIATING' | 'WON' | 'LOST';
+  industry: string;
+  value: number;
+  lastActivity: string;
+  followers?: number;
+  website?: string;
+  tags: string[];
+}
+
+export const dashboardLeads: DashboardLead[] = [
+  { id: 'LD-0001', name: 'MARCUS REID', company: 'PIXEL FORGE STUDIO', email: 'MARCUS@PIXELFORGE.CO', score: 96, source: 'INSTAGRAM', status: 'QUALIFIED', industry: 'CREATIVE AGENCY', value: 12000, lastActivity: '2 MIN AGO', followers: 14200, website: 'PIXELFORGE.CO', tags: ['HIGH VALUE', 'WARM'] },
+  { id: 'LD-0002', name: 'SOPHIA CHEN', company: 'GROWTHSTACK AI', email: 'SOPHIA@GROWTHSTACK.IO', score: 91, source: 'LINKEDIN', status: 'NEGOTIATING', industry: 'SAAS', value: 25000, lastActivity: '15 MIN AGO', followers: 8400, website: 'GROWTHSTACK.IO', tags: ['ENTERPRISE', 'WARM'] },
+  { id: 'LD-0003', name: 'TYLER JACKSON', company: 'BOLT FITNESS', email: 'TJ@BOLTFIT.COM', score: 87, source: 'GOOGLE MAPS', status: 'CONTACTED', industry: 'FITNESS', value: 4500, lastActivity: '1 HR AGO', followers: 32100, website: 'BOLTFIT.COM', tags: ['LOCAL', 'RESPONSIVE'] },
+  { id: 'LD-0004', name: 'EMMA RODRIGUEZ', company: 'VERDANT SKINCARE', email: 'EMMA@VERDANT.BEAUTY', score: 83, source: 'INSTAGRAM', status: 'QUALIFIED', industry: 'ECOMMERCE', value: 8000, lastActivity: '2 HR AGO', followers: 67500, website: 'VERDANT.BEAUTY', tags: ['DTC', 'HIGH ENGAGEMENT'] },
+  { id: 'LD-0005', name: 'JAKE MORRISON', company: 'SUMMIT DIGITAL', email: 'JAKE@SUMMITDIGITAL.CO', score: 79, source: 'REFERRAL', status: 'NEW', industry: 'MARKETING', value: 15000, lastActivity: '3 HR AGO', tags: ['AGENCY', 'REFERRED'] },
+  { id: 'LD-0006', name: 'ARIA PATEL', company: 'NEONWAVE LABS', email: 'ARIA@NEONWAVE.DEV', score: 74, source: 'WEBSITE', status: 'CONTACTED', industry: 'TECH', value: 20000, lastActivity: '4 HR AGO', website: 'NEONWAVE.DEV', tags: ['STARTUP', 'FUNDED'] },
+  { id: 'LD-0007', name: 'CHRIS DUNBAR', company: 'IRONCLAD ROOFING', email: 'CHRIS@IRONCLADRF.COM', score: 68, source: 'GOOGLE MAPS', status: 'NEW', industry: 'HOME SERVICES', value: 3200, lastActivity: '5 HR AGO', followers: 2100, tags: ['LOCAL', 'SMB'] },
+  { id: 'LD-0008', name: 'NINA VOLKOV', company: 'LUNA HOSPITALITY', email: 'NINA@LUNAHTL.COM', score: 62, source: 'COLD EMAIL', status: 'CONTACTED', industry: 'HOSPITALITY', value: 7500, lastActivity: '6 HR AGO', tags: ['CHAIN', 'MULTI-LOCATION'] },
+  { id: 'LD-0009', name: 'DAMON PRICE', company: 'APEX CONSULTING', email: 'DAMON@APEXCG.COM', score: 55, source: 'LINKEDIN', status: 'NEW', industry: 'CONSULTING', value: 18000, lastActivity: '8 HR AGO', tags: ['B2B', 'ENTERPRISE'] },
+  { id: 'LD-0010', name: 'LENA MARSH', company: 'WILLOW & CO', email: 'LENA@WILLOWCO.SHOP', score: 48, source: 'INSTAGRAM', status: 'NEW', industry: 'RETAIL', value: 2800, lastActivity: '12 HR AGO', followers: 4300, tags: ['BOUTIQUE'] },
+  { id: 'LD-0011', name: 'RAJ ANAND', company: 'DATASTREAM TECH', email: 'RAJ@DATASTREAM.AI', score: 92, source: 'REFERRAL', status: 'WON', industry: 'AI/ML', value: 35000, lastActivity: '1 DAY AGO', website: 'DATASTREAM.AI', tags: ['ENTERPRISE', 'CLOSED'] },
+  { id: 'LD-0012', name: 'OLIVIA TRAN', company: 'BLOOM BAKERY', email: 'OLIVIA@BLOOMBAKE.COM', score: 41, source: 'GOOGLE MAPS', status: 'LOST', industry: 'FOOD & BEV', value: 1500, lastActivity: '2 DAYS AGO', followers: 8900, tags: ['LOCAL', 'SMB'] },
+  { id: 'LD-0013', name: 'ETHAN CROSS', company: 'VANGUARD MEDIA', email: 'ETHAN@VANGUARDMEDIA.CO', score: 88, source: 'COLD EMAIL', status: 'NEGOTIATING', industry: 'MEDIA', value: 22000, lastActivity: '30 MIN AGO', tags: ['AGENCY', 'WARM'] },
+  { id: 'LD-0014', name: 'MAYA OKONKWO', company: 'ZENITH WELLNESS', email: 'MAYA@ZENITHWELL.COM', score: 73, source: 'WEBSITE', status: 'QUALIFIED', industry: 'HEALTH', value: 6000, lastActivity: '5 HR AGO', followers: 19400, website: 'ZENITHWELL.COM', tags: ['DTC', 'GROWING'] },
+  { id: 'LD-0015', name: 'CONNOR BYRNE', company: 'STEELPOINT FINANCE', email: 'CONNOR@STEELPOINT.FIN', score: 85, source: 'LINKEDIN', status: 'CONTACTED', industry: 'FINTECH', value: 30000, lastActivity: '45 MIN AGO', tags: ['ENTERPRISE', 'HIGH VALUE'] },
+];
+
+export const leadsDashboardStats = {
+  totalLeads: 247,
+  newThisWeek: 38,
+  qualifiedRate: 34.2,
+  avgScore: 72,
+  totalPipelineValue: 312500,
+  wonThisMonth: 8,
+  wonValue: 87000,
+  conversionRate: 18.4,
+  avgTimeToClose: 12,
+  responseRate: 64,
+};
+
+export const leadsActivityFeed = [
+  { time: '14:38', type: 'SCORED', message: 'MARCUS REID scored 96 — auto-qualified', color: '#00ff41' },
+  { time: '14:35', type: 'REPLY', message: 'SOPHIA CHEN replied to proposal — moving to negotiation', color: '#00ff41' },
+  { time: '14:22', type: 'NEW', message: '3 new leads imported from Instagram scrape', color: '#ffb000' },
+  { time: '14:15', type: 'ENRICHED', message: 'TYLER JACKSON enriched — 32.1K followers, website found', color: '#6366f1' },
+  { time: '14:02', type: 'CONTACTED', message: 'Cold email sent to NINA VOLKOV — sequence 1/3', color: '#e0e0e0' },
+  { time: '13:55', type: 'WON', message: 'RAJ ANAND closed — $35,000 contract signed', color: '#00ff41' },
+  { time: '13:41', type: 'LOST', message: 'OLIVIA TRAN marked lost — budget mismatch', color: '#ff0040' },
+  { time: '13:30', type: 'SCORED', message: 'CONNOR BYRNE scored 85 — flagged for outreach', color: '#00ff41' },
+  { time: '13:18', type: 'NEW', message: '5 new leads from Google Maps — Austin, TX', color: '#ffb000' },
+  { time: '13:05', type: 'ENRICHED', message: 'Batch enrichment complete — 12 leads updated', color: '#6366f1' },
+];
+
+export const leadsSourceBreakdown = [
+  { source: 'INSTAGRAM', count: 82, pct: 33, won: 12, color: '#E1306C' },
+  { source: 'GOOGLE MAPS', count: 58, pct: 23, won: 8, color: '#4285F4' },
+  { source: 'LINKEDIN', count: 42, pct: 17, won: 6, color: '#0A66C2' },
+  { source: 'COLD EMAIL', count: 31, pct: 13, won: 3, color: '#ffb000' },
+  { source: 'REFERRAL', count: 22, pct: 9, won: 7, color: '#00ff41' },
+  { source: 'WEBSITE', count: 12, pct: 5, won: 2, color: '#6366f1' },
+];
+
+export const leadsPipelineStages = [
+  { stage: 'NEW', count: 94, value: 126000, pct: 38 },
+  { stage: 'CONTACTED', count: 67, value: 89000, pct: 27 },
+  { stage: 'QUALIFIED', count: 48, value: 72000, pct: 19 },
+  { stage: 'NEGOTIATING', count: 22, value: 54000, pct: 9 },
+  { stage: 'WON', count: 16, value: 87000, pct: 7 },
+];
+
+export const leadsChartData = Array.from({ length: 30 }, (_, i) => ({
+  day: `D${i + 1}`,
+  newLeads: +(8 + Math.sin(i * 0.5) * 5 + seededRandom(i + 1200) * 4).toFixed(0),
+  qualified: +(3 + Math.sin(i * 0.4) * 2 + seededRandom(i + 1300) * 2).toFixed(0),
+  closed: +(1 + Math.sin(i * 0.3) * 1 + seededRandom(i + 1400) * 1).toFixed(0),
+  pipelineValue: +(250000 + i * 2500 + seededRandom(i + 1500) * 15000).toFixed(0),
+}));
+
+export const leadsScoreDistribution = [
+  { range: '90-100', count: 18, pct: 7 },
+  { range: '80-89', count: 34, pct: 14 },
+  { range: '70-79', count: 52, pct: 21 },
+  { range: '60-69', count: 47, pct: 19 },
+  { range: '50-59', count: 38, pct: 15 },
+  { range: '40-49', count: 31, pct: 13 },
+  { range: '0-39', count: 27, pct: 11 },
+];

@@ -7,6 +7,7 @@ const projects = [
   { id: 'dealflow', name: 'DEALFLOW', description: 'brand deal + partnership CRM pipeline — kanban tracking, deal telemetry', status: 'RUNNING', pid: '4824', href: '/mission-control/dealflow' },
   { id: 'sentinel', name: 'SENTINEL', description: 'ai customer support ticket agent — threat board, agent ops, auto-dispatch', status: 'RUNNING', pid: '4825', href: '/mission-control/sentinel' },
   { id: 'harvest', name: 'HARVEST', description: 'lead gen funnel + scoring system — acquisition funnel, lead matrix, source signals', status: 'RUNNING', pid: '4826', href: '/mission-control/harvest' },
+  { id: 'leads', name: 'LEADS', description: 'lead intelligence center — pipeline tracking, score rings, source analysis, activity feed', status: 'RUNNING', pid: '4828', href: '/mission-control/leads' },
   { id: 'ledger', name: 'LEDGER', description: 'revenue ops + p&l command center — income streams, expenditure log, financial telemetry', status: 'RUNNING', pid: '4827', href: '/mission-control/ledger' },
   { id: 'hellyeah', name: 'HELL YEAH SIMULATOR', description: 'autonomous grindset protocol — morning sequence, operations node tree, live intercept feed', status: 'RUNNING', pid: '6969', href: '/mission-control/hellyeah' },
 ];
